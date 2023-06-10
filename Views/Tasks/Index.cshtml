@@ -1,0 +1,48 @@
+﻿@model IEnumerable<WebApplication1.Models.Task>
+
+@{
+    ViewData["Title"] = "Lista";
+}
+
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<h1>Lista</h1>
+
+<p>
+    <a asp-action="Create">Stwórz</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Zadanie
+            </th>
+            <th>
+                Zakończone
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            @if (UserManager.GetUserId(User) == item.UserId)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TaskContent)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsCompleted)
+                    </td>
+
+                    <td style="display:flex;justify-content:flex-end;gap:.5rem;">
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edytuj</a> |
+                        <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">Usuń</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

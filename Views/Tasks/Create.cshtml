@@ -1,0 +1,46 @@
+﻿@model WebApplication1.Models.Task
+
+@{
+    ViewData["Title"] = "Stwórz";
+}
+
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+
+<h1>Stwórz</h1>
+
+<h4>Zadanie</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TaskContent" class="control-label">Treść zadania</label>
+                <input asp-for="TaskContent" class="form-control" />
+                <span asp-validation-for="TaskContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label">ID użytkownika</label>
+                <input asp-for="UserId" class="form-control" value="@UserManager.GetUserId(User)" readonly />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsCompleted" class="control-label">Zakończone</label>
+                <input asp-for="IsCompleted" type="checkbox" />
+                <span asp-validation-for="IsCompleted" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Stwórz" class="btn btn-secondary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="d-block mt-3" asp-action="Index">Powrót do listy</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
